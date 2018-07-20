@@ -25,6 +25,7 @@
 require_once "modules/agent_console/libs/issabel2.lib.php";
 require_once "modules/agent_console/libs/JSON.php";
 require_once "modules/agent_console/libs/paloSantoConsola.class.php";
+require_once("modules/agents/libs/Agentes.class.php");
 
 function _moduleContent(&$smarty, $module_name)
 {
@@ -85,8 +86,12 @@ function ver_agendadas($module_name,$smarty, $local_templates_dir,$pDB, $idcampa
 {
 
  $oBreaks = new PaloSantoBreaks($pDB);
+ $oAgentes = new Agentes($pDB);
+ $listaAgentes = $oAgentes->getAgents();
+ 
+// print_r($listaAgentes);
 $datos=$oBreaks->Ver_Agendadas($idcampana);
-	$micon='<b>Llamadas agendadas</b>
+	$micon='<b>Llamadas agendadas</b><br><br>
 	<table width="100%">
 		<tr>
 		<td><b>N.TELEFONO</b></td>
@@ -99,9 +104,26 @@ $datos=$oBreaks->Ver_Agendadas($idcampana);
 $cont = count($datos);
 for ($i=0;$i<=$cont;$i++)
 {
+    $nag="";
+    $issel="";
+    $miag="";
+    foreach (array_keys($listaAgentes) as $k)
+    {
+        
+        $agnum=split('/',$datos[$i][19]);
+        $nag=$listaAgentes[$k]['number']; 
+        if ($nag==$agnum[1])
+            $issel="selected";
+        else
+            $issel="";
+        $miag.="<option value='$nag' $issel>Agent/$nag</option>";
+    }
+    
+    //.$datos[$i][19].
+    
 	$micon.='<tr>
                 <td>'.$datos[$i][2].'</td>
-                <td>'.$datos[$i][19].'</td>
+                <td><select>'.$miag.'</select></td>
                 <td>'.$datos[$i][15].'</td>
                 <td>'.$datos[$i][17].'</td>
 		<td>'.$datos[$i][3] .'</td>
