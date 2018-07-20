@@ -9,3 +9,7 @@ Para isntalarlo solo es necesario reescribir los archios de la carpeta /var/www/
 
 2018/07/09
 Estamos en version ALPHA, hasta hoy se monta la primera version de el codigo.
+
+2018/07/19
+Permite cambiar el agente agendado en una campaña
+<img src="https://raw.githubusercontent.com/casoftcol/campaign_monitoring/master/screen/2018-07-19.png" >
